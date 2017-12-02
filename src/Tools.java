@@ -1,6 +1,9 @@
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -49,6 +52,62 @@ public class Tools {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    static double[] GenerateLogSpace(double min, double max, int nBins)
+    {
+        double[] logList = new double[nBins];
+        double m = 1.0 / (nBins - 1);
+        double quotient =  Math.pow(max / min, m);
+        logList[0] = min;
+        for (int i = 1; i < nBins; i++){
+            logList[i] = logList[i - 1] * quotient;
+        }
+        return logList;
+    }
+
+
+    static double[] GenerateLinSpace(double min, double max, int nBins)
+    {
+        double[] linList = new double[nBins];
+        double step = (max - min) / nBins;
+        double nextPoint = min;
+        for (int i = 0; i < nBins; i++){
+            linList[i] = nextPoint;
+            nextPoint += step;
+        }
+        return linList;
+    }
+
+
+    static void saveResultsToFile(String fileName, ArrayList<String> columnNames, ArrayList<double[]> columns, boolean Double){
+        try {
+            String dateString = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss").format(new Date());
+            fileName = fileName + "_" + dateString + ".csv";
+            PrintWriter writer = new PrintWriter("Results/" + fileName, "UTF-8");
+            String colimnString = "";
+            for (String columnName : columnNames){
+                colimnString += columnName + ";";
+            }
+            writer.println(colimnString);
+
+            int index = 0;
+            while (index < columns.get(0).length){
+                String string = "";
+                for (double[] array : columns){
+                    string += array[index] + ";";
+                }
+                writer.println(string);
+                index += 1;
+            }
+            writer.close();
+            System.out.println("The result is saved like " + fileName);
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
 
