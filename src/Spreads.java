@@ -43,14 +43,19 @@ public class Spreads {
 //            String lineCcy2ccy5 = brCcy2ccy5.readLine();
 //            String lineCcy4ccy5 = brCcy4ccy5.readLine();
 
-            lineCcy1ccy2 = brCcy1ccy2.readLine();
+            lineCcy1ccy2 = brCcy1ccy2.readLine(); // the first reference point (old)
             Price oldPriceCcy1ccy2 = Tools.priceLineToPrice(lineCcy1ccy2, ",", "yyyy.MM.dd HH:mm:ss.SSS", 1, 2, 0);
 
-            lineCcy1ccy2 = brCcy1ccy2.readLine();
+            lineCcy1ccy2 = brCcy1ccy2.readLine(); // the second reference point (new)
             Price newPriceCcy1ccy2 = Tools.priceLineToPrice(lineCcy1ccy2, ",", "yyyy.MM.dd HH:mm:ss.SSS", 1, 2, 0);
 
-            lineCcy3ccy4 = brCcy3ccy4.readLine();
+            lineCcy3ccy4 = brCcy3ccy4.readLine(); // price of the second exchange rate
             Price priceCcy3ccy4 = Tools.priceLineToPrice(lineCcy3ccy4, ",", "yyyy.MM.dd HH:mm:ss.SSS", 1, 2, 0);
+            while (priceCcy3ccy4.getTime() <= oldPriceCcy1ccy2.getTime()){ // juts to be sure that this price is indeed
+                // inside or after the range old-new
+                lineCcy3ccy4 = brCcy3ccy4.readLine();
+                priceCcy3ccy4 = Tools.priceLineToPrice(lineCcy3ccy4, ",", "yyyy.MM.dd HH:mm:ss.SSS", 1, 2, 0);
+            }
 
             OSscalingLaw oSscalingLaw = new OSscalingLaw(0.05, 4, 100, true);
 
