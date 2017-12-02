@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.util.Date;
 
 /**
  * In Nutshell: for all available ticks in two time series compute spread taking into account synchronisation of their
@@ -15,16 +16,16 @@ public class Spreads {
 
     public static void main(String[] args){
 
-        String ccy1ccy2 = "EURUSD";
-        String ccy3ccy4 = "CHFJPY";
+        String ccy1ccy2 = "USDCHF";
+        String ccy3ccy4 = "EURGBP";
 //        String ccy2ccy5 = "CHFUSD";
 //        String ccy4ccy5 = "JPYUSD";
 
-        String commonNamePart = "_UTC_Ticks_Bid_2012.07.20_2017.07.21.csv"; // common part from all names (optional)
+        String commonNamePart = "_UTC_Ticks_Bid_2011-01-01_2016-01-01.csv"; // common part from all names (optional)
 
-        String priceSource = "E:/Data/Forex/2012_2017/"; // path to the first file
+        String priceSource = "D:/Data/"; // path to the first file
 
-        String outputPath = "E:/Data/Forex/2012_2017/Spreads/"; // path to the output
+        String outputPath = "D:/Data/"; // path to the output
 
 
         PricesToSpread pricesToSpread = new PricesToSpread();
@@ -67,7 +68,7 @@ public class Spreads {
                 while(priceCcy3ccy4.getTime() > oldPriceCcy1ccy2.getTime() && priceCcy3ccy4.getTime() <= newPriceCcy1ccy2.getTime()){
 
 
-                    float spread = -pricesToSpread.midSpread(oldPriceCcy1ccy2, priceCcy3ccy4);
+                    float spread = pricesToSpread.midSpread(oldPriceCcy1ccy2, priceCcy3ccy4);
 
 
 
@@ -83,7 +84,7 @@ public class Spreads {
 
 
                     if (i % 100000 == 0){
-                        System.out.println("Time: " + priceCcy3ccy4.getTime() + ", spread: " + spread);
+                        System.out.println("Time: " + (new Date(priceCcy3ccy4.getTime())) + ", spread: " + spread);
                     }
 //                    writer.println(priceCcy3ccy4.getTime() + "," + spread);
                     lineCcy3ccy4 = brCcy3ccy4.readLine();
