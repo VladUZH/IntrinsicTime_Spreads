@@ -64,7 +64,7 @@ public class OSscalingLaw {
     }
 
 
-    public void saveToFile(){
+    public void saveToFile(String name){
         ArrayList<String> columnNames = new ArrayList<String>();
         columnNames.add("Delta");
         columnNames.add("Av_OS_move");
@@ -75,7 +75,7 @@ public class OSscalingLaw {
         columnsData.add(sumArray);
         columnsData.add(Arrays.stream(numEventsArray).asDoubleStream().toArray());
 
-        Tools.saveResultsToFile("averageOvershoots", columnNames, columnsData, true);
+        Tools.saveResultsToFile("averageOvershoots_" + name, columnNames, columnsData, true);
     }
 
 
